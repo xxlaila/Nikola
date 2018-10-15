@@ -37,7 +37,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="admin.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="admin.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/asset/admin.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="699">
@@ -50,21 +50,9 @@
       <file leaf-file-name="core.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/asset/core.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="681">
+            <state relative-caret-position="870">
               <caret line="61" column="21" lean-forward="true" selection-start-line="61" selection-start-column="21" selection-end-line="61" selection-end-column="21" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="sysinfo.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/NikolaClient/plugins/linux/sysinfo.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1935">
-              <caret line="129" column="8" lean-forward="false" selection-start-line="129" selection-start-column="8" selection-end-line="129" selection-end-column="8" />
-              <folding>
-                <element signature="e#24#49#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -120,9 +108,9 @@
       <find>asset_with_no_asset_id</find>
       <find>idclist_per_page</find>
       <find>get_asset_id_by_sn</find>
-      <find>asset_report</find>
-      <find>wake_up_type</find>
       <find>update</find>
+      <find>wake_up_type</find>
+      <find>asset_report</find>
     </findStrings>
     <replaceStrings>
       <replace />
@@ -260,7 +248,20 @@
             <path>
               <item name="Nikola" type="b2602c69:ProjectViewProjectNode" />
               <item name="Nikola" type="462c0819:PsiDirectoryNode" />
-              <item name="asset" type="462c0819:PsiDirectoryNode" />
+              <item name="NikolaClient" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Nikola" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Nikola" type="462c0819:PsiDirectoryNode" />
+              <item name="NikolaClient" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="Nikola" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Nikola" type="462c0819:PsiDirectoryNode" />
+              <item name="NikolaClient" type="462c0819:PsiDirectoryNode" />
+              <item name="plugins" type="462c0819:PsiDirectoryNode" />
+              <item name="linux" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -783,35 +784,13 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/asset/views.py">
+    <entry file="file://$PROJECT_DIR$/NikolaClient/plugins/linux/sysinfo.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-68">
-          <caret line="42" column="46" lean-forward="true" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asset/admin.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="699">
-          <caret line="154" column="95" lean-forward="false" selection-start-line="154" selection-start-column="85" selection-end-line="154" selection-end-column="95" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asset/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="297">
-          <caret line="427" column="26" lean-forward="true" selection-start-line="427" selection-start-column="26" selection-end-line="427" selection-end-column="26" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/asset/core.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="681">
-          <caret line="61" column="21" lean-forward="true" selection-start-line="61" selection-start-column="21" selection-end-line="61" selection-end-column="21" />
-          <folding />
+        <state relative-caret-position="400">
+          <caret line="129" column="8" lean-forward="false" selection-start-line="129" selection-start-column="8" selection-end-line="129" selection-end-column="8" />
+          <folding>
+            <element signature="e#24#49#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -825,13 +804,35 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/NikolaClient/plugins/linux/sysinfo.py">
+    <entry file="file://$PROJECT_DIR$/asset/core.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1935">
-          <caret line="129" column="8" lean-forward="false" selection-start-line="129" selection-start-column="8" selection-end-line="129" selection-end-column="8" />
-          <folding>
-            <element signature="e#24#49#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="870">
+          <caret line="61" column="21" lean-forward="true" selection-start-line="61" selection-start-column="21" selection-end-line="61" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/models.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="297">
+          <caret line="427" column="26" lean-forward="true" selection-start-line="427" selection-start-column="26" selection-end-line="427" selection-end-column="26" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-68">
+          <caret line="42" column="46" lean-forward="true" selection-start-line="42" selection-start-column="46" selection-end-line="42" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/asset/admin.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="154" column="95" lean-forward="false" selection-start-line="154" selection-start-column="85" selection-end-line="154" selection-end-column="95" />
+          <folding />
         </state>
       </provider>
     </entry>
