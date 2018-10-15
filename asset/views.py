@@ -39,10 +39,8 @@ def asset_report(request):
 @csrf_exempt
 def asset_with_no_asset_id(request):
     if request.method == 'POST':
-        print('request:     %s' % (request))
         ass_handler = core.Asset(request)
         res = ass_handler.get_asset_id_by_sn()
-        print('response:    %s' % (json.dumps(res)))
         # return render(request,'assets/acquire_asset_id_test.html',{'response':res})
         return HttpResponse(json.dumps(res))
 

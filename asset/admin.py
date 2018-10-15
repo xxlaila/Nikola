@@ -152,7 +152,8 @@ from django.http import HttpResponseRedirect
 
 class NewAssetApprovalZoneAdmin(admin.ModelAdmin):
     list_display = ('sn','asset_type','host_name','manufactory','model','cpu_model','cpu_count','cpu_core_count','ram_size',
-                    'os_distribution','os_release', 'family','diskname', 'date','approved','approved_by','approved_date')
+                    'os_distribution','os_release', 'family','disksize','ipaddress','macaddress', 'date','approved',
+                    'approved_by','approved_date')
     actions = ['approve_selected_objects']
     def approve_selected_objects(modeladmin, request, queryset):
         selected = request.POST.getlist(admin.ACTION_CHECKBOX_NAME)

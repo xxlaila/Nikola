@@ -8,11 +8,11 @@ from django.utils import timezone
 class Asset(object):
     def __init__(self, request):
         self.request = request
-        self.mandatory_fields = ['sn', 'asset_id', 'asset_type', 'host_name','family','diskname']  # must contains 'sn' , 'asset_id' and 'asset_type'
+        self.mandatory_fields = ['sn', 'asset_id', 'asset_type', 'host_name','family','disksize','ipaddress','macaddress']  # must contains 'sn' , 'asset_id' and 'asset_type'
         self.field_sets = {
             'asset': ['manufactory'],
             'server': ['model', 'cpu_count', 'cpu_core_count', 'cpu_model', 'raid_type', 'os_type', 'os_distribution',
-                        'os_release', 'family', 'diskname'],
+                        'os_release', 'family','disksize','ipaddress','macaddress'],
             'networkdevice': []
         }
         self.response = {
@@ -29,12 +29,10 @@ class Asset(object):
 
     def mandatory_check(self, data, only_check_sn=False):
         for field in self.mandatory_fields:
-            print ("火辣 %s" %field)
-            print ("死啦 %s" %data)
             if field not in data:
-                #self.response_msg('error', 'MandatoryCheckFailed',
-                #                  "The field [%s] is mandatory and not provided in your reporting data" % field)
-                pass
+                self.response_msg('error', 'MandatoryCheckFailed',
+                                  "The field [%s] is mandatory and not provided in your reporting data" % field)
+
         else:
             if self.response['error']: return False
         try:
@@ -109,8 +107,12 @@ class Asset(object):
                                                                                                'host_name'),
                                                                                            family=self.clean_data.get(
                                                                                                'family'),
-                                                                                           diskname=self.clean_data.get(
-                                                                                               'diskname'),
+                                                                                           disksize=self.clean_data.get(
+                                                                                               'disksize'),
+                                                                                           ipaddress=self.clean_data.get(
+                                                                                               'ipaddress'),
+                                                                                           macaddress=self.clean_data.get(
+                                                                                               'macaddress'),
                                                                                            )
         return True
 

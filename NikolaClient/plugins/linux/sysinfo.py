@@ -53,7 +53,7 @@ def nicinfo():
             else:
                 temp_nic_list.append(line.strip())
         raw_nic_list.append(temp_nic_list)
-        nic_list = []
+        nic_list = {}
         nic_dic = {}
         for nic_item in raw_nic_list:
             nic_dic = {}
@@ -74,10 +74,18 @@ def nicinfo():
                 nic_dic["netmask"] = nic_netmask
                 nic_dic["bonding"] = 0
                 nic_dic["model"] = 'unknown'
+
                 nic_dic["ipaddress"] = nic_ip
                 nic_list.append(nic_dic)
-        #print(nic_dic)
-        return {"nic": nic_list}
+                nic_list['name'] = nic_dic['name']
+                nic_list['macaddress'] = nic_dic['macaddress']
+                nic_list['network'] = nic_dic['network']
+                nic_list['netmask'] = nic_dic['netmask']
+                nic_list['bonding'] = "0"
+                nic_list['model'] = "model"
+                nic_list['ipaddress'] = nic_dic['ipaddress']
+        #print(nic_list)
+        return nic_list
     elif os_data[0] == "Red":
         for line in raw_data:
             if "HWaddr" in line:
@@ -88,7 +96,7 @@ def nicinfo():
             else:
                 temp_nic_list.append(line.strip())
         raw_nic_list.append(temp_nic_list)
-        nic_list = []
+        nic_list = {}
         nic_dic = {}
         for nic_item in raw_nic_list:
             nic_dic = {}
@@ -109,9 +117,17 @@ def nicinfo():
                 nic_dic["bonding"] = 0
                 nic_dic["model"] = 'unknown'
                 nic_dic["ipaddress"] = nic_ip
+
                 nic_list.append(nic_dic)
-        #print(nic_dic)
-        return {"nic": nic_list}
+                nic_list['name'] = nic_dic['name']
+                nic_list['macaddress'] = nic_dic['macaddress']
+                nic_list['network'] = nic_dic['network']
+                nic_list['netmask'] = nic_dic['netmask']
+                nic_list['bonding'] = "0"
+                nic_list['model'] = "model"
+                nic_list['ipaddress'] = nic_dic['ipaddress']
+        # print(nic_list)
+        return nic_list
 
 def raminfo():
     '''监控red hat 和 centos系统'''
@@ -167,11 +183,11 @@ def raminfo():
 
 def hosts():
     host = subprocess.check_output("hostname |head -1|awk '{print $1}'", shell=True).decode().strip()
-    data_host = {
+    data = {
         "host_name": host.split()[0],
     }
     # print(data_host)
-    return data_host
+    return data
 
 def hosts():
     host = subprocess.check_output("hostname |head -1|awk '{print $1}'", shell=True).decode().strip()
@@ -187,13 +203,13 @@ def osinfo():
     #distributor = commands.getoutput(" lsb_release -a|grep 'Distributor ID'").split(":")
     release  = subprocess.check_output("cat /etc/redhat-release |head -1 |awk '{print $(NF-1)}'",shell=True).decode().split()
     #release = commands.getoutput(" lsb_release -a|grep Description").split(":")
-    data_dic = {
+    data = {
         "os_distribution": distributor.split()[0],
         "os_release": release[0].strip(),
         "os_type": "Linux",
     }
     # print(data_dic)
-    return data_dic
+    return data
 
 
 def cpuinfo():
@@ -261,10 +277,10 @@ def diskinfo():
         if re.match(r'[a-z]d[a-z]', line):
             diskname = line.split()[0]
             disksize = line.split()[3]
-            disk_list.append({
+            disk_data = {
                 'uuid': uuid_result + '-' + diskname,
                 'diskname': diskname,
                 'disksize': disksize,
-            })
+            }
     #print (disk_list)
-    return {'disk': disk_list}
+    return disk_data
