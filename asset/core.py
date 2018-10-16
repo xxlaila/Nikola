@@ -8,11 +8,11 @@ from django.utils import timezone
 class Asset(object):
     def __init__(self, request):
         self.request = request
-        self.mandatory_fields = ['sn', 'asset_id', 'asset_type', 'host_name','family','disksize','ipaddress','macaddress']  # must contains 'sn' , 'asset_id' and 'asset_type'
+        self.mandatory_fields = ['sn', 'asset_id', 'asset_type', 'host_name','family','disk_capacity','ipaddress','macaddress']  # must contains 'sn' , 'asset_id' and 'asset_type'
         self.field_sets = {
             'asset': ['manufactory'],
             'server': ['model', 'cpu_count', 'cpu_core_count', 'cpu_model', 'raid_type', 'os_type', 'os_distribution',
-                        'os_release', 'family','disksize','ipaddress','macaddress'],
+                        'os_release', 'family','disk_capacity','ipaddress','macaddress'],
             'networkdevice': []
         }
         self.response = {
@@ -107,8 +107,8 @@ class Asset(object):
                                                                                                'host_name'),
                                                                                            family=self.clean_data.get(
                                                                                                'family'),
-                                                                                           disksize=self.clean_data.get(
-                                                                                               'disksize'),
+                                                                                           disk_capacity=self.clean_data.get(
+                                                                                               'disk_capacity'),
                                                                                            ipaddress=self.clean_data.get(
                                                                                                'ipaddress'),
                                                                                            macaddress=self.clean_data.get(
@@ -199,27 +199,34 @@ class Asset(object):
         func = getattr(self, '_update_%s' % self.clean_data['asset_type'])
         create_obj = func()
 
+    def data_save(self):
+        if self.waiting_approval:
+            self.create_asset()
+        else:
+            self.update_asset()
+
     def _update_server(self):
+
         nic = self.__update_asset_component(data_source=self.clean_data['nic'],
                                             fk='nic_set',
-                                            update_fields=['name', 'sn', 'model', 'macaddress', 'ipaddress', 'netmask',
-                                                           'bonding'],
+                                            update_fields=['name', 'macaddress', 'ipaddress', 'netmask'
+                                                           ],
                                             identify_field='macaddress'
                                             )
         disk = self.__update_asset_component(data_source=self.clean_data['disk'],
                                              fk='disk_set',
-                                             update_fields=['slot', 'sn', 'model', 'manufactory', 'diskcapacity',
-                                                            'disk_name','iface_type'],
-                                             identify_field='slot'
+                                             update_fields=[ 'disk_capacity',
+                                                            'disk_name'],
+                                             #identify_field='slot'
                                              )
         ram = self.__update_asset_component(data_source=self.clean_data['ram'],
                                             fk='ram_set',
-                                            update_fields=['slot', 'sn', 'model', 'capacity'],
-                                            identify_field='slot'
+                                            update_fields=['ram_size'],
+                                           #identify_field='slot'
                                             )
+
         cpu = self.__update_cpu_component()
         manufactory = self.__update_manufactory_component()
-
         server = self.__update_server_component()
 
     def _create_server(self):
@@ -294,22 +301,23 @@ class Asset(object):
     def __create_disk_component(self):
         disk_info = self.clean_data.get('disk')
         if disk_info:
-            for disk_item in disk_info:
+            for disk in disk_info:
                 try:
-                    self.__verify_field(disk_item, 'slot', str)
-                    self.__verify_field(disk_item, 'disk_capacity', str)
-                    self.__verify_field(disk_item, 'iface_type', str)
-                    self.__verify_field(disk_item, 'disk_name', str)
-                    self.__verify_field(disk_item, 'model', str)
+                    #self.__verify_field(disk_item, 'slot', str)
+                    self.__verify_field(disk, 'disk_capacity', str)
+                    self.__verify_field(disk, 'disk_name', str)
+                    #self.__verify_field(disk_item, 'iface_type', str)
+                    #self.__verify_field(disk_item, 'model', str)
                     if not len(self.response['error']):  # no processing when there's no error happend
                         data_set = {
                             'asset_id': self.asset_obj.id,
-                            'sn': disk_item.get('sn'),
-                            'slot': disk_item.get('slot'),
-                            'disk_capacity': disk_item.get('disk_capacity'),
-                            'model': disk_item.get('model'),
-                            'iface_type': disk_item.get('iface_type'),
-                            'manufactory': disk_item.get('manufactory'),
+                            #'sn': disk_item.get('sn'),
+                            #'slot': disk_item.get('slot'),
+                            'disk_name': disk('disk_name'),
+                            'disk_capacity': disk.get('disk_capacity'),
+                            #'model': disk_item.get('model'),
+                            #'iface_type': disk_item.get('iface_type'),
+                            #'manufactory': disk_item.get('manufactory'),
                         }
 
                         obj = models.Disk(**data_set)
@@ -330,11 +338,11 @@ class Asset(object):
                         data_set = {
                             'asset_id': self.asset_obj.id,
                             'name': nic_item.get('name'),
-                            'sn': nic_item.get('sn'),
+                            #'sn': nic_item.get('sn'),
                             'macaddress': nic_item.get('macaddress'),
                             'ipaddress': nic_item.get('ipaddress'),
-                            'bonding': nic_item.get('bonding'),
-                            'model': nic_item.get('model'),
+                            #'bonding': nic_item.get('bonding'),
+                            #'model': nic_item.get('model'),
                             'netmask': nic_item.get('netmask'),
                         }
 
@@ -346,6 +354,7 @@ class Asset(object):
         else:
             self.response_msg('error', 'LackOfData', 'NIC info is not provied in your reporting data')
 
+
     def __create_ram_component(self):
         ram_info = self.clean_data.get('ram')
         if ram_info:
@@ -355,10 +364,10 @@ class Asset(object):
                     if not len(self.response['error']):  # no processing when there's no error happend
                         data_set = {
                             'asset_id': self.asset_obj.id,
-                            'slot': ram_item.get("slot"),
-                            'sn': ram_item.get('sn'),
-                            'capacity': ram_item.get('capacity'),
-                            'model': ram_item.get('model'),
+                            #'slot': ram_item.get("slot"),
+                            #'sn': ram_item.get('sn'),
+                            'ram_size': ram_item.get('ram_size'),
+                            #'model': ram_item.get('model'),
                         }
 
                         obj = models.RAM(**data_set)
@@ -382,7 +391,7 @@ class Asset(object):
         self.__create_or_update_manufactory(ignore_errs=True)
 
     def __update_hostname_component(self):
-        self.__create_hostname_component(ignore_errs=True)
+        self.__compare_componet(ignore_errs=True)
 
     def __update_cpu_component(self):
         update_fields = ['cpu_model', 'cpu_count', 'cpu_core_count']

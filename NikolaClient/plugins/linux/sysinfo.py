@@ -144,7 +144,7 @@ def raminfo():
         else:
             temp_raw_item.append(line.strip())
     temp_raw_item.append(temp_raw_item)  # 最后一个插槽的信息补上
-    ram_list = []
+    ram_list = {}
     for ram_item in raw_ram_list:
         ram_item_size = 0
         ram_item_to_dic = {}
@@ -275,12 +275,12 @@ def diskinfo():
                                   shell=True).stdout.read().decode().strip()
     for line in cmd_result:
         if re.match(r'[a-z]d[a-z]', line):
-            diskname = line.split()[0]
-            disksize = line.split()[3]
+            disk_name = line.split()[0]
+            disk_capacity = line.split()[3]
             disk_data = {
-                'uuid': uuid_result + '-' + diskname,
-                'diskname': diskname,
-                'disksize': disksize,
+                'uuid': uuid_result + '-' + disk_name,
+                'disk_name': disk_name,
+                'disk_capacity': disk_capacity,
             }
     #print (disk_list)
     return disk_data

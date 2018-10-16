@@ -210,20 +210,20 @@ class RAM(models.Model):
     sn = models.CharField(u'SN号', max_length=128, blank=True, null=True)
     model = models.CharField(u'内存型号', max_length=128)
     slot = models.CharField(u'插槽', max_length=64)
-    capacity = models.IntegerField(u'内存大小(MB)')
+    ram_size = models.IntegerField(u'内存大小(MB)')
     memo = models.CharField(u'备注', max_length=128, blank=True, null=True)
     create_date = models.DateTimeField(blank=True, auto_now_add=True)
     update_date = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
-        return '%s:%s:%s' % (self.asset_id, self.slot, self.capacity)
+        return '%s:%s:%s' % (self.asset_id, self.slot, self.ram_size)
 
     class Meta:
         verbose_name = 'RAM'
         verbose_name_plural = "RAM"
         unique_together = ("asset", "slot")
 
-    auto_create_fields = ['sn', 'slot', 'model', 'capacity']
+    auto_create_fields = ['sn', 'slot', 'model', 'ram_size']
 
 
 class Disk(models.Model):
@@ -447,7 +447,7 @@ class NewAssetApprovalZone(models.Model):
     os_distribution = models.CharField(max_length=64, blank=True, null=True)
     os_type = models.CharField(max_length=64, blank=True, null=True)
     os_release = models.CharField(max_length=64, blank=True, null=True)
-    disksize = models.CharField(max_length=64, blank=True, null=True)
+    disk_capacity = models.CharField(max_length=64, blank=True, null=True)
     ipaddress = models.GenericIPAddressField(u'IP', blank=True, null=True)
     macaddress = models.CharField(u'MAC', max_length=64, unique=True)
     family = models.CharField(max_length=64, blank=True,null=True)
